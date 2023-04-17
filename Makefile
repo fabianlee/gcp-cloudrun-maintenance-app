@@ -9,9 +9,6 @@ EXPOSED_PORT := 8000
 CONTAINER_PORT := 8000
 WEBPORT := $(EXPOSED_PORT):$(CONTAINER_PORT)
 
-# get from environment variable OR default to dummy value
-NEW_RELIC_LICENSE_KEY := $(shell (printenv NEW_RELIC_LICENSE_KEY || echo dummy-key))
-
 # you may need to change to "sudo docker" if not a member of 'docker' group
 DOCKERCMD := "docker"
 
@@ -19,10 +16,8 @@ BUILD_TIME := $(shell date -u '+%Y-%m-%d_%H:%M:%S')
 # unique id from last git commit
 MY_GITREF := $(shell git rev-parse --short HEAD)
 
-init:
-
 test-local:
-	python3 -m flask run --port 8080
+	./run_flask_localdev.sh
 
 ## builds docker image
 docker-build:
@@ -39,8 +34,7 @@ docker-test-fg:
 	# -e APP_CONTEXT=/gunicorn
 	# -e GUNICORN_WORKERS=3
 	# -e GUNICORN_BIND=0.0.0.0:8000
-	# -e NEW_RELIC_APP_NAME
-	$(DOCKERCMD) run -it -p $(WEBPORT) -e GUNICORN_WORKERS=3 -e NEW_RELIC_LICENSE_KEY=$(NEW_RELIC_LICENSE_KEY) --rm $(OPV)
+	$(DOCKERCMD) run -it -p $(WEBPORT) -e GUNICORN_WORKERS=3 --rm $(OPV)
 
 ## runs container in foreground, override entrypoint to use use shell
 docker-test-cli:
@@ -48,7 +42,7 @@ docker-test-cli:
 
 ## run container in background
 docker-run-bg:
-	$(DOCKERCMD) run -d -p $(WEBPORT) -e GUNICORN_WORKERS=3 -e NEW_RELIC_LICENSE_KEY=$(NEW_RELIC_LICENSE_KEY) --rm --name $(PROJECT) $(OPV)
+	$(DOCKERCMD) run -d -p $(WEBPORT) -e GUNICORN_WORKERS=3 --rm --name $(PROJECT) $(OPV)
 
 ## get into console of container running in background
 docker-cli-bg:
@@ -64,8 +58,8 @@ docker-logs:
 
 ## stops container running in background
 docker-stop:
-	$(DOCKERCMD) stop $(PROJECT)
-	$(DOCKERCMD) rm $(PROJECT)
+	$(DOCKERCMD) stop $(OPV)
+	$(DOCKERCMD) rm $(OPV)
 
 ## pushes to $(DOCKERCMD)hub
 docker-push:
