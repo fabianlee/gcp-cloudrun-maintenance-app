@@ -13,7 +13,7 @@ for k,v in os.environ.items():
 
 # provide defaults if not explicitly defined
 if not 'bind' in locals():
-  bind = "0.0.0.0:8000"
+  bind = "0.0.0.0:8080"
 
 spew = False if not 'spew' in locals() else (spew in ['true','True'])
 

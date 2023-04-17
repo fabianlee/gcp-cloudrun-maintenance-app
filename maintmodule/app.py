@@ -38,7 +38,7 @@ print("MAINTENANCE_MESSAGE = {}".format(MAINTENANCE_MESSAGE))
 # called as Flask app
 if __name__ == '__main__' or __name__ == "main":
   print("called as Flask app")
-  port = int(os.getenv("PORT", 8000))
+  port = int(os.getenv("PORT", 8080))
   print("Starting web server on port {}".format(port))
   app.run(host='0.0.0.0', port=port, debug=True)
 # called as WSGI gunicorn app

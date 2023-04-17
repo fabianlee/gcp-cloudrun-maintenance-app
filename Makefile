@@ -5,8 +5,8 @@ OPV := $(OWNER)/$(PROJECT):$(VERSION)
 
 SHELL := /bin/bash
 
-EXPOSED_PORT := 8000
-CONTAINER_PORT := 8000
+EXPOSED_PORT := 8080
+CONTAINER_PORT := 8080
 WEBPORT := $(EXPOSED_PORT):$(CONTAINER_PORT)
 
 # you may need to change to "sudo docker" if not a member of 'docker' group
@@ -33,7 +33,7 @@ docker-test-fg:
 	# Other env vars that can be overridden
 	# -e APP_CONTEXT=/gunicorn
 	# -e GUNICORN_WORKERS=3
-	# -e GUNICORN_BIND=0.0.0.0:8000
+	# -e GUNICORN_BIND=0.0.0.0:8080
 	$(DOCKERCMD) run -it -p $(WEBPORT) -e GUNICORN_WORKERS=3 --rm $(OPV)
 
 ## runs container in foreground, override entrypoint to use use shell
@@ -50,7 +50,7 @@ docker-cli-bg:
 
 ab:
 	which ab || { echo "ERROR could not find Apache Bench, use 'sudo apt install apache2-utils'"; exit 1; }
-	ab -n 10000 -c 25 http://localhost:8000/
+	ab -n 10000 -c 25 http://localhost:8080/
 
 ## tails $(DOCKERCMD)logs
 docker-logs:

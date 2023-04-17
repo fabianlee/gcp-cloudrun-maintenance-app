@@ -12,7 +12,7 @@ sudo apt-get install software-properties-common python3 python3-dev python3-pip 
 python3 -m venv .
 pip install -r requirements.txt
 
-# run Python Flask app locally, open local browser to http://localhost:8000
+# run Python Flask app locally, open local browser to http://localhost:8080
 make test-local
 
 ```
