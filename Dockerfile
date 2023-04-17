@@ -22,8 +22,9 @@ EXPOSE 8080
 ENV PORT 8080
 
 # using Flask
-ENTRYPOINT [ "python", "-m", "maintmodule.app", "run" ]
-# TODO I have not gotten WSGI gunicorn to work yet with CloudRun, does not serve content
-#ENTRYPOINT [ "/usr/local/bin/gunicorn", "--config", "gunicorn.conf.py", "--log-config", "gunicorn-logging.conf", "maintmodule.app:app" ]
+#ENTRYPOINT [ "python", "-m", "maintmodule.app", "run" ]
+
+# prefer WSGI gunicorn for production speed
+ENTRYPOINT [ "/usr/local/bin/gunicorn", "--config", "gunicorn.conf.py", "--log-config", "gunicorn-logging.conf", "maintmodule.app:app" ]
 
 

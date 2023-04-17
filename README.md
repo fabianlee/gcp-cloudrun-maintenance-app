@@ -24,9 +24,11 @@ make test-local
 export PYTHONWARNINGS="ignore:Unverified HTTPS request"
 gcloud services enable cloudbuild.googleapis.com artifactregistry.googleapis.com
 
-# deploy to CloudRun
+# setup variables
 app_name="${PWD##*/}"
 region=$(gcloud config get compute/region)
+
+# deploy to CloudRun
 gcloud run deploy $app_name --source=. --region=$region --ingress=all --allow-unauthenticated --execution-environment=gen2 --no-use-http2 --quiet
 
 # show details of deployment

@@ -20,14 +20,15 @@ spew = False if not 'spew' in locals() else (spew in ['true','True'])
 forwarded_allowed_ips = "*" if not 'forwarded_allowed_ips' in locals() else "127.0.0.1"
 
 # https://docs.gunicorn.org/en/stable/settings.html#worker-class
-#worker_class = "gthread"
+worker_class = "gthread"
 if not 'workers' in locals():
-  workers = 2
-calc_workers = multiprocessing.cpu_count()*2+1
-print(f"if using standard equation for workers (cpu*2+1), we would have used {calc_workers}")
+  #workers = 2
+  workers = multiprocessing.cpu_count()*2+1
+print(f"workers calculated as (cpu*2+1), so using {workers}")
 
 # https://docs.gunicorn.org/en/stable/settings.html#threads
-threads = 3
+# https://cloud.google.com/run/docs/quickstarts/build-and-deploy/deploy-python-service
+threads = 8
 
 # https://docs.gunicorn.org/en/latest/settings.html#worker-tmp-dir
 # for docker, place temp directory in tmpfs location (instead of overlay) to avoid delays
