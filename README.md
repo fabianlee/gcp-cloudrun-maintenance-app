@@ -17,7 +17,7 @@ make test-local
 
 ```
 
-### Deploying to GCP CloudRun
+### Deploying to GCP CloudRun with single deploy command
 
 ```
 # enable GCP project level services
@@ -27,6 +27,7 @@ gcloud services enable cloudbuild.googleapis.com artifactregistry.googleapis.com
 # setup variables
 app_name="${PWD##*/}"
 region=$(gcloud config get compute/region)
+project_id=$(gcloud config get project)
 
 # deploy to CloudRun
 gcloud run deploy $app_name --source=. --region=$region --ingress=all --allow-unauthenticated --execution-environment=gen2 --no-use-http2 --quiet
@@ -40,3 +41,19 @@ run_url=$(gcloud run services describe $app_name --region=$region --format='valu
 echo "CloudRun app at: $run_url"
 curl $run_url
 ```
+
+### Deploying to GCP CloudRun with discreet build then deploy command
+
+```
+# make sure Artifact Registry repo exists
+repo_name=cloud-run-source-deploy
+gcloud artifacts repositories create $repo_name --repository-format=docker --location=$region
+
+# build image 1.0.0
+gcloud builds submit --tag ${region}-docker.pkg.dev/$project_id/$repo_name/$app_name:1.0.0 .
+
+# deploy using explicit 1.0.0 image
+gcloud run deploy $app_name --region=$region --ingress=all --allow-unauthenticated --execution-environment=gen2 --no-use-http2 --image ${region}-docker.pkg.dev/$project_id/$repo_name/$app_name:1.0.0 --quiet
+
+```
+
