@@ -29,7 +29,8 @@ maint_file_exists=os.path.exists(maint_file)
 print("ROOT_DIR = {}, maintenance.html={}, exists? {}".format(ROOT_DIR,maint_file,maint_file_exists))
 with open(maint_file,'r') as file:
   maint_file_as_string = file.read()
-print(maint_file_as_string)
+# show maintenance html page
+#print(maint_file_as_string)
 
 # get maintenance message from env var
 MAINTENANCE_MESSAGE = os.getenv("MAINTENANCE_MESSAGE","This is the fallback maintenance message")

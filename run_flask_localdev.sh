@@ -5,4 +5,4 @@
 # Used during development lifecycle
 #
 
-python3 -m maintmodule.app run --port 8000
+python3 -m maintmodule.app run --port 8080

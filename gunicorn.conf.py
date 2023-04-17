@@ -20,7 +20,7 @@ spew = False if not 'spew' in locals() else (spew in ['true','True'])
 forwarded_allowed_ips = "*" if not 'forwarded_allowed_ips' in locals() else "127.0.0.1"
 
 # https://docs.gunicorn.org/en/stable/settings.html#worker-class
-worker_class = "gthread"
+#worker_class = "gthread"
 if not 'workers' in locals():
   workers = 2
 calc_workers = multiprocessing.cpu_count()*2+1
@@ -33,6 +33,9 @@ threads = 3
 # for docker, place temp directory in tmpfs location (instead of overlay) to avoid delays
 # will have to check on 
 worker_tmp_dir = "/dev/shm"
+
+# for GCP CloudRun scaling, https://cloud.google.com/run/docs/quickstarts/build-and-deploy/deploy-python-service
+timeout = 0
 
 # prints all config, then halts
 # print_config = True

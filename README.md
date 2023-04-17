@@ -16,3 +16,25 @@ pip install -r requirements.txt
 make test-local
 
 ```
+
+### Deploying to GCP CloudRun
+
+```
+# enable GCP project level services
+export PYTHONWARNINGS="ignore:Unverified HTTPS request"
+gcloud services enable cloudbuild.googleapis.com artifactregistry.googleapis.com
+
+# deploy to CloudRun
+app_name="${PWD##*/}"
+region=$(gcloud config get compute/region)
+gcloud run deploy $app_name --source=. --region=$region --ingress=all --allow-unauthenticated --execution-environment=gen2 --no-use-http2 --quiet
+
+# show details of deployment
+gcloud run services list
+gcloud run services describe $_app_name --region=$region
+
+# test pull of content
+run_url=$(gcloud run services describe $app_name --region=$region --format='value(status.url)')
+echo "CloudRun app at: $run_url"
+curl $run_url
+```

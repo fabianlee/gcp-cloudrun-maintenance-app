@@ -19,7 +19,9 @@ COPY maintmodule maintmodule/
 
 # default docker port to expose, '-p' flag is used to same effect
 EXPOSE 8080
+ENV PORT 8080
 
-ENTRYPOINT [ "/usr/local/bin/gunicorn", "--config", "gunicorn.conf.py", "--log-config", "gunicorn-logging.conf", "maintmodule.app:app" ]
+ENTRYPOINT [ "python", "-m", "maintmodule.app", "run" ]
+#ENTRYPOINT [ "/usr/local/bin/gunicorn", "--config", "gunicorn.conf.py", "--log-config", "gunicorn-logging.conf", "maintmodule.app:app" ]
 
 

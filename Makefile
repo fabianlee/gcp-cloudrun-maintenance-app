@@ -58,8 +58,7 @@ docker-logs:
 
 ## stops container running in background
 docker-stop:
-	$(DOCKERCMD) stop $(OPV)
-	$(DOCKERCMD) rm $(OPV)
+	$(DOCKERCMD) ps -q --filter ancestor="$(OPV)" | xargs -r $(DOCKERCMD) stop
 
 ## pushes to $(DOCKERCMD)hub
 docker-push:
