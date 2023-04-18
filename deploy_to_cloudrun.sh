@@ -15,7 +15,7 @@ project_id=$(gcloud config get project)
 set -x
 
 # deploy to CloudRun
-gcloud run deploy $app_name --source=. --region=$region --ingress=all --allow-unauthenticated --execution-environment=gen2 --no-use-http2 --quiet
+gcloud run deploy $app_name --source=. --region=$region --ingress=all --allow-unauthenticated --execution-environment=gen2 --no-use-http2 --update-env-vars "MAINTENANCE_MESSAGE=This is the Cloud Run maintenance message" --quiet
 
 # show details of deployment
 gcloud run services list
