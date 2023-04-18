@@ -25,5 +25,5 @@ set +x
 
 # test pull of content
 run_url=$(gcloud run services describe $app_name --region=$region --format='value(status.url)')
-echo "CloudRun app at: $run_url"
+echo "Cloud Run URL: $run_url"
 curl $run_url
