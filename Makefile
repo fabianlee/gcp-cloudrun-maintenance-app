@@ -48,10 +48,6 @@ docker-run-bg:
 docker-cli-bg:
 	$(DOCKERCMD) exec -it $(PROJECT) /bin/sh
 
-ab:
-	which ab || { echo "ERROR could not find Apache Bench, use 'sudo apt install apache2-utils'"; exit 1; }
-	ab -n 10000 -c 25 http://localhost:8080/
-
 ## tails $(DOCKERCMD)logs
 docker-logs:
 	$(DOCKERCMD) logs -f $(PROJECT)
