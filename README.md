@@ -1,6 +1,6 @@
 ## gcp-cloudrun-maintenance-app
 
-Creates GCP CloudRun maintenance page application
+Creates GCP Cloud Run maintenance page application
 
 
 ### Getting Started with local development
@@ -17,19 +17,19 @@ make test-local
 
 ```
 
-### Deploying to GCP CloudRun with single deploy command
+### Deploying to GCP Cloud Run with single deploy command
 
 ```
 # enable GCP project level services
 export PYTHONWARNINGS="ignore:Unverified HTTPS request"
-gcloud services enable cloudbuild.googleapis.com artifactregistry.googleapis.com
+gcloud services enable cloudbuild.googleapis.com artifactregistry.googleapis.com run.googleapis.com
 
 # setup variables
 app_name="${PWD##*/}"
 region=$(gcloud config get compute/region)
 project_id=$(gcloud config get project)
 
-# deploy to CloudRun
+# deploy to Cloud Run
 gcloud run deploy $app_name --source=. --region=$region --ingress=all --allow-unauthenticated --execution-environment=gen2 --no-use-http2 --quiet
 
 # show details of deployment
@@ -38,11 +38,11 @@ gcloud run services describe $_app_name --region=$region
 
 # test pull of content
 run_url=$(gcloud run services describe $app_name --region=$region --format='value(status.url)')
-echo "CloudRun app at: $run_url"
+echo "Cloud Run app at: $run_url"
 curl $run_url
 ```
 
-### Deploying to GCP CloudRun with discreet build then deploy command
+### Deploying to GCP Cloud Run with discreet build then deploy command
 
 ```
 # make sure Artifact Registry repo exists
